@@ -183,9 +183,9 @@ const renderMovies = () => {
 
   moviesToRender[moviesToRender.length - 1]?.movieList.forEach((movie) => {
     const movieContainer = createMovieElement(movie);
-    
-  movieListContainer.appendChild(movieContainer);
-  observeLazyImages();
+
+    movieListContainer.appendChild(movieContainer);
+    observeLazyImages();
   });
 };
 
