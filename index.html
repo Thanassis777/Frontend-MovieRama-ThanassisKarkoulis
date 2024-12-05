@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MovieRama</title>
+    <title>MovieRama - Explore Movies</title>
+    <link rel="icon" href="./assets/logo.png" type="image/x-icon" />
     <link rel="stylesheet" href="style.css" />
     <script src="utils.js" defer></script>
     <script src="domMan.js" defer></script>
@@ -11,9 +12,9 @@
   </head>
   <body>
     <div class="main-container">
-      <div class="header">
+      <header class="header">
         <div class="logo">
-          <img src="./assets/logo.png" />
+          <img src="./assets/logo.png" alt="MovieRama Logo" loading="lazy" />
         </div>
         <div class="search">
           <form class="search-form" id="form">
@@ -22,17 +23,21 @@
               id="query"
               name="search"
               placeholder="Search Movies..."
+              aria-label="Search for movies"
             />
-            <button type="submit">
-              <img src="./assets/icons/search.png" />
+            <button type="submit" aria-label="Search">
+              <img src="./assets/icons/search.png" alt="Search Icon" loading="lazy" />
             </button>
           </form>
         </div>
-      </div>
-      <div class="movies">
-        <div class="movies-title"></div>
-        <div class="movie-list-container"></div>
-      </div>
+      </header >
+
+      <main>
+        <section class="movies">
+          <div class="movies-title"></div>
+          <div class="movie-list-container"></div>
+        </section>
+      </main>
     </div>
   </body>
 </html>

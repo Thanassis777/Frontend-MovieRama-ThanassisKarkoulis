@@ -17,111 +17,123 @@ moviesTitle.innerHTML = "Playing Now";
 
 //single source of truth
 const state = {
-  genres: {},
-  movies: [],
-  searchMovies: [],
-  clickedMovie: null,
+    genres: {},
+    movies: [],
+    searchMovies: [],
+    clickedMovie: null,
 };
 
+
 const fetchGenres = async () => {
-  const response = await fetch(genreUrl);
-  const data = await response.json();
-  const returnVal = {};
-  data.genres.forEach(({ id, name }) => (returnVal[id] = name));
-  state.genres = returnVal;
+    try {
+        const response = await fetch(genreUrl);
+        const data = await response.json();
+        const returnVal = {};
+        data.genres.forEach(({id, name}) => (returnVal[id] = name));
+
+        state.genres = returnVal;
+    } catch (error) {
+        handleFetchError(error);
+    }
 };
 
 const fetchMovie = async (id) => {
-  const movieRes = await fetch(`${searchMovieUrl}/${id}?api_key=${apiKey}`);
-  const movieData = await movieRes.json();
+    const movieRes = await fetch(`${searchMovieUrl}/${id}?api_key=${apiKey}`);
+    const movieData = await movieRes.json();
 
-  const movieVideoRes = await fetch(
-    `${searchMovieUrl}/${id}/videos?api_key=${apiKey}`
-  );
-  const videoData = await movieVideoRes.json();
+    const movieVideoRes = await fetch(
+        `${searchMovieUrl}/${id}/videos?api_key=${apiKey}`
+    );
+    const videoData = await movieVideoRes.json();
 
-  const reviewsRes = await fetch(
-    `${searchMovieUrl}/${id}/reviews?api_key=${apiKey}`
-  );
-  const reviewsData = await reviewsRes.json();
+    const reviewsRes = await fetch(
+        `${searchMovieUrl}/${id}/reviews?api_key=${apiKey}`
+    );
+    const reviewsData = await reviewsRes.json();
 
-  const similarsRes = await fetch(
-    `${searchMovieUrl}/${id}/similar?api_key=${apiKey}`
-  );
-  const similarData = await similarsRes.json();
+    const similarsRes = await fetch(
+        `${searchMovieUrl}/${id}/similar?api_key=${apiKey}`
+    );
+    const similarData = await similarsRes.json();
 
-  const videoTrailer = videoData.results.find(
-    (result) => result.type === "Trailer"
-  );
-  const reviews = reviewsData.results.slice(0, 2);
-  const similar = similarData.results.slice(0, 7);
+    const videoTrailer = videoData.results.find(
+        (result) => result.type === "Trailer"
+    );
+    const reviews = reviewsData.results.slice(0, 2);
+    const similar = similarData.results.slice(0, 7);
 
-  return { movie: movieData, trailer: videoTrailer, reviews, similar };
+    return {movie: movieData, trailer: videoTrailer, reviews, similar};
 };
 
 const fetchMovies = async () => {
-  let response;
+    try {
+        let response;
 
-  if (searchbox.value) {
-    response = await fetch(
-      `${searchUrl}?query=${searchbox.value}&page=${
-        state.searchMovies.length + 1
-      }&api_key=${apiKey}`
-    );
-    const data = await response.json();
+        if (searchbox.value) {
+            response = await fetch(
+                `${searchUrl}?query=${searchbox.value}&page=${
+                    state.searchMovies.length + 1
+                }&api_key=${apiKey}`
+            );
+            const data = await response.json();
 
-    state.searchMovies = [
-      ...state.searchMovies,
-      { page: data.page, movieList: data.results },
-    ];
-  } else {
-    response = await fetch(nowPlayingUrl + `&page=${state.movies.length + 1}`);
-    const data = await response.json();
-    state.movies = [
-      ...state.movies,
-      { page: data.page, movieList: data.results },
-    ];
-  }
-  renderMovies();
+            state.searchMovies = [
+                ...state.searchMovies,
+                {page: data.page, movieList: data.results},
+            ];
+        } else {
+            response = await fetch(nowPlayingUrl + `&page=${state.movies.length + 1}`);
+            const data = await response.json();
+            state.movies = [
+                ...state.movies,
+                {page: data.page, movieList: data.results},
+            ];
+        }
+
+        renderMovies();
+    } catch (error) {
+        handleFetchError(error);
+    }
+
 };
 
 const main = async () => {
-  await fetchGenres();
-  await fetchMovies();
+    await fetchGenres();
+    await fetchMovies();
 };
 
 const throttledFetching = throttle(fetchMovies, 1000);
 
 window.addEventListener("scroll", () => {
-  const isAtBottom = isScrolledToBottom();
-  if (isAtBottom) {
-    throttledFetching();
-  }
+    const isAtBottom = isScrolledToBottom();
+    if (isAtBottom) {
+        throttledFetching();
+    }
 });
 
 searchbox.addEventListener("input", (event) => {
-  event.preventDefault();
-  const searchTerm = event.target.value;
-  movieListContainer.innerHTML = "";
-  resetState();
-  searchTerm
-    ? (moviesTitle.innerHTML = "Search results:")
-    : (moviesTitle.innerHTML = "Playing Now");
+    event.preventDefault();
+    const searchTerm = event.target.value;
+    movieListContainer.innerHTML = "";
+    resetState();
+    searchTerm
+        ? (moviesTitle.innerHTML = "Search results:")
+        : (moviesTitle.innerHTML = "Playing Now");
 
-  debounce(fetchMovies, 1000)();
+    debounce(fetchMovies, 1000)();
 });
 
 searchbox.addEventListener("keypress", (event) => {
-  if (event.keyCode === 13) {
-    event.preventDefault();
-  }
+    if (event.keyCode === 13) {
+        event.preventDefault();
+    }
 });
 
 document.addEventListener("keydown", (event) => {
-  const modal = document.querySelector(".modal");
-  if (event.key === "Escape" && modal) {
-    modal.remove();
-  }
+    const modal = document.querySelector(".modal");
+    if (event.key === "Escape" && modal) {
+        modal.remove();
+    }
 });
 
 main();

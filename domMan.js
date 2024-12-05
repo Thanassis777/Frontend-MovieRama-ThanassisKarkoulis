@@ -4,7 +4,10 @@ const createMovieElement = (movie) => {
 
   const poster = document.createElement("img");
   poster.classList.add("movie-poster");
-  poster.src = getImage(movie.backdrop_path);
+  
+  poster.src = ""; // Placeholder to support lazy loading
+  poster.setAttribute('data-src', getImage(movie.backdrop_path));
+  poster.classList.add("lazy-load");
 
   const movieInfo = document.createElement("div");
   movieInfo.classList.add("movie-info");
@@ -19,9 +22,7 @@ const createMovieElement = (movie) => {
 
   const genre = document.createElement("p");
   genre.classList.add("movie-genre");
-  genre.textContent = `Genre(s): ${movie.genre_ids
-    .map((genreId) => state.genres[genreId])
-    .join(", ")}`;
+  genre.textContent = `Genre(s): ${movie.genre_ids?.map((genreId) => state.genres[genreId]).join(", ")}`;
 
   const voteNumber = document.createElement("span");
   voteNumber.classList.add("vote-number");
@@ -104,7 +105,7 @@ const createModal = (movieData) => {
   } else {
     const noReviewsAvailable = document.createElement("div");
     noReviewsAvailable.classList.add("no-reviews-available");
-    noReviewsAvailable.innerHTML = "No reviews avaiable";
+    noReviewsAvailable.innerHTML = "No reviews available";
     reviews.appendChild(noReviewsAvailable);
   }
 
@@ -123,12 +124,12 @@ const createModal = (movieData) => {
   const similarContainer = document.createElement("div");
   similarContainer.classList.add("similar-container");
 
-  similar.appendChild(similarContainer);
-
   movieData.similar.forEach((item) => {
     const movieContainer = createMovieElement(item);
     similarContainer.appendChild(movieContainer);
   });
+
+  similar.appendChild(similarContainer);
 
   modalInfo.appendChild(modalInfoTitle);
   modalInfo.appendChild(modalHero);
@@ -146,15 +147,45 @@ const createModal = (movieData) => {
 
   mainContainer.appendChild(modal);
 
+  // Ensure lazy images in modal are observed
+  observeLazyImages();
+
   return modal;
+};
+
+const observeLazyImages = () => {
+  const lazyImages = document.querySelectorAll('.lazy-load:not(.loaded)');
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.getAttribute('data-src');
+          img.onload = () => img.classList.add('loaded');
+          observer.unobserve(img);
+        }
+      });
+    });
+
+    lazyImages.forEach((img) => observer.observe(img));
+  } else {
+    // Fallback for browsers without IntersectionObserver support
+    lazyImages.forEach((img) => {
+      img.src = img.getAttribute('data-src');
+      img.onload = () => img.classList.add('loaded');
+    });
+  }
 };
 
 const renderMovies = () => {
   let moviesToRender = searchbox.value ? state.searchMovies : state.movies;
 
-  moviesToRender[moviesToRender.length - 1].movieList.forEach((movie) => {
+  moviesToRender[moviesToRender.length - 1]?.movieList.forEach((movie) => {
     const movieContainer = createMovieElement(movie);
-    movieListContainer.appendChild(movieContainer);
+    
+  movieListContainer.appendChild(movieContainer);
+  observeLazyImages();
   });
 };
 
