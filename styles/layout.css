@@ -1,0 +1,38 @@
+.main-container {
+    height: calc(100vh + 10px);
+}
+
+.header {
+    position: relative;
+    padding: 15px 30px;
+    background-color: var(--main-bg-color);
+    border-bottom: 2px solid black;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    width: 150px;
+}
+
+.logo > img {
+    width: 100%;
+}
+
+.search {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    display: flex;
+}
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
