@@ -1,181 +1,66 @@
 const createMovieElement = (movie) => {
-  const movieContainer = document.createElement("div");
-  movieContainer.classList.add("movie-container");
+  const movieContainer = createElement("div", ["movie-container"]);
 
-  const poster = document.createElement("img");
-  poster.classList.add("movie-poster");
-  
-  poster.src = ""; // Placeholder to support lazy loading
-  poster.setAttribute('data-src', getImage(movie.backdrop_path));
-  poster.classList.add("lazy-load");
+  // Poster
+  const poster = createElement("img", ["movie-poster"]);
+  lazyLoadImage(poster, getImage(movie.backdrop_path));
 
-  const movieInfo = document.createElement("div");
-  movieInfo.classList.add("movie-info");
-
-  const title = document.createElement("h2");
-  title.classList.add("movie-title");
-  title.textContent = movie.title;
-
-  const releaseYear = document.createElement("p");
-  releaseYear.classList.add("movie-release-year");
-  releaseYear.textContent = `Release: ${movie.release_date}`;
-
-  const genre = document.createElement("p");
-  genre.classList.add("movie-genre");
-  genre.textContent = `Genre(s): ${movie.genre_ids?.map((genreId) => state.genres[genreId]).join(", ")}`;
-
-  const voteNumber = document.createElement("span");
-  voteNumber.classList.add("vote-number");
-  voteNumber.textContent = movie.vote_average;
-
-  const voteAverage = document.createElement("p");
-  voteAverage.classList.add("movie-vote-average");
-  voteAverage.textContent = `Vote Average: `;
+  // Movie Info
+  const movieInfo = createElement("div", ["movie-info"]);
+  const title = createElement("h2", ["movie-title"], {}, movie.title);
+  const releaseYear = createElement("p", ["movie-release-year"], {}, `Release: ${movie.release_date}`);
+  const genre = createElement(
+      "p",
+      ["movie-genre"],
+      {},
+      `Genre(s): ${movie.genre_ids?.map((genreId) => state.genres[genreId]).join(", ")}`
+  );
+  const voteNumber = createElement("span", ["vote-number"], {}, movie.vote_average);
+  const voteAverage = createElement("p", ["movie-vote-average"], {}, "Vote Average: ");
   voteAverage.appendChild(voteNumber);
+  const overview = createElement("p", ["movie-overview"], {}, movie.overview);
 
-  const overview = document.createElement("p");
-  overview.classList.add("movie-overview");
-  overview.textContent = movie.overview;
+  appendChildren(movieInfo, title, releaseYear, genre, voteAverage, overview);
+  appendChildren(movieContainer, poster, movieInfo);
 
-  movieInfo.appendChild(title);
-  movieInfo.appendChild(releaseYear);
-  movieInfo.appendChild(genre);
-  movieInfo.appendChild(voteAverage);
-  movieInfo.appendChild(overview);
+  // Event Listener for Modal
+  movieContainer.addEventListener("click", () => handleModal(movie.id));
 
-  movieContainer.appendChild(poster);
-  movieContainer.appendChild(movieInfo);
-
-  movieContainer.addEventListener("click", () => {
-    handleModal(movie.id);
-  });
   return movieContainer;
 };
 
 const createModal = (movieData) => {
-  const modalOld = document.querySelector(".modal");
-  if (modalOld) {
-    modalOld.remove();
-  }
-  const modal = document.createElement("div");
-  modal.classList.add("modal");
+  const existingModal = document.querySelector(".modal");
+  if (existingModal) existingModal.remove();
 
-  const modalInfo = document.createElement("div");
-  modalInfo.classList.add("modal-info");
+  const modal = createElement("div", ["modal"]);
+  const modalInfo = createElement("div", ["modal-info"]);
 
-  const modalInfoTitle = document.createElement("div");
-  modalInfoTitle.classList.add("modal-info-title");
+  // Title
+  const modalInfoTitle = createElement("div", ["modal-info-title"], {}, movieData.movie.title);
 
-  modalInfoTitle.innerHTML = movieData.movie.title;
+  // Hero Section (Video + Reviews)
+  const modalHero = createModalHero(movieData);
 
-  const modalHero = document.createElement("div");
-  modalHero.classList.add("modal-info-hero");
+  // Similar Movies Section
+  const similarMovies = createSimilarMoviesSection(movieData.similar);
 
-  const video = document.createElement("div");
-  video.classList.add("video");
-  if (movieData.trailer?.key) {
-    video.appendChild(createYouTubeIframe(movieData.trailer.key));
-  } else {
-    const noVideo = document.createElement("img");
-    noVideo.classList.add("no-video");
-    noVideo.src = "./assets/icons/noVideo.png";
-    video.appendChild(noVideo);
-  }
+  // Close Button
+  const closeButton = createElement("button", ["close-modal"], {}, "X");
+  closeButton.addEventListener("click", () => modal.remove());
 
-  const reviews = document.createElement("div");
-  const reviewsTitle = document.createElement("h2");
-  reviewsTitle.innerHTML = "Reviews";
-  reviews.appendChild(reviewsTitle);
-  reviews.classList.add("reviews");
-
-  if (movieData.reviews.length) {
-    movieData.reviews.forEach((review) => {
-      const reviewContainer = document.createElement("div");
-      reviewContainer.classList.add("review-container");
-      const author = document.createElement("div");
-      author.classList.add("author");
-      author.innerHTML = review.author;
-      const reviewContent = document.createElement("div");
-      reviewContent.classList.add("review-content");
-      reviewContent.innerHTML = review.content;
-      reviewContainer.appendChild(author);
-      reviewContainer.appendChild(reviewContent);
-      reviews.appendChild(reviewContainer);
-    });
-  } else {
-    const noReviewsAvailable = document.createElement("div");
-    noReviewsAvailable.classList.add("no-reviews-available");
-    noReviewsAvailable.innerHTML = "No reviews available";
-    reviews.appendChild(noReviewsAvailable);
-  }
-
-  modalHero.appendChild(video);
-  modalHero.appendChild(reviews);
-
-  const similar = document.createElement("div");
-  similar.classList.add("similar");
-
-  const similarTitle = document.createElement("h2");
-  similarTitle.classList.add("similar-title");
-  similarTitle.innerHTML = "Similar";
-
-  similar.appendChild(similarTitle);
-
-  const similarContainer = document.createElement("div");
-  similarContainer.classList.add("similar-container");
-
-  movieData.similar.forEach((item) => {
-    const movieContainer = createMovieElement(item);
-    similarContainer.appendChild(movieContainer);
-  });
-
-  similar.appendChild(similarContainer);
-
-  modalInfo.appendChild(modalInfoTitle);
-  modalInfo.appendChild(modalHero);
-  modalInfo.appendChild(similar);
-
-  const closeButton = document.createElement("button");
-  closeButton.classList.add("close-modal");
-  closeButton.textContent = "X";
-  closeButton.addEventListener("click", () => {
-    modal.remove();
-  });
-
-  modal.appendChild(modalInfo);
-  modal.appendChild(closeButton);
-
+  appendChildren(modalInfo, modalInfoTitle, modalHero, similarMovies);
+  appendChildren(modal, modalInfo, closeButton);
   mainContainer.appendChild(modal);
 
-  // Ensure lazy images in modal are observed
+  // Lazy load images in modal
   observeLazyImages();
-
-  return modal;
 };
 
 const observeLazyImages = () => {
-  const lazyImages = document.querySelectorAll('.lazy-load:not(.loaded)');
-
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          img.src = img.getAttribute('data-src');
-          img.onload = () => img.classList.add('loaded');
-          observer.unobserve(img);
-        }
-      });
-    });
-
-    lazyImages.forEach((img) => observer.observe(img));
-  } else {
-    // Fallback for browsers without IntersectionObserver support
-    lazyImages.forEach((img) => {
-      img.src = img.getAttribute('data-src');
-      img.onload = () => img.classList.add('loaded');
-    });
-  }
+  document.querySelectorAll(".lazy-load:not(.loaded)").forEach((img) => {
+    lazyLoadImage(img, img.getAttribute("data-src"));
+  });
 };
 
 const renderMovies = () => {
