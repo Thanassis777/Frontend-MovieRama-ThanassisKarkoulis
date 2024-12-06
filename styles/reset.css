@@ -11,3 +11,24 @@ body {
     margin: 0;
     background-color: var(--main-bg-color);
 }
+
+/* Add dark mode styling */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode .movie-container {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .movie-container:hover {
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.6);
+}
+
+body.dark-mode .movies-title {
+    color: #e0e0e0;
+    background-color: #1e1e1e;
+}

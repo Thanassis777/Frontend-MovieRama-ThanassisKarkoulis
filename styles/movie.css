@@ -7,22 +7,48 @@
 }
 
 .movie-list-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 20px 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 20px;
 }
 
 .movie-container {
-    border: 2px solid black;
-    width: 185px;
-    overflow: hidden;
-    border-radius: 20px;
-    color: black;
-    background-color: white;
+    border: 2px solid #989cf4; /* Bright gold border to make it stand out */
+    border-radius: 15px; /* Rounded corners for a softer look */
+    padding: 10px;
+    background-color: #e9e9f3; /* Ensure the background contrasts with the border */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.movie-container:hover {
+    transform: scale(1.05);
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    background-color: #e8e4e4;
+    border-color: #454df3; /* Slightly darker gold on hover */
+}
+
+.vote-number::before {
+    content: "⭐";
+}
+
+.movie-title, .movie-genre, .movie-overview, .movie-vote-average {
+    word-break: break-all;
+}
+
+/* Add star icons for ratings */
+.vote-number {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.movie-overview {
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Display 4 lines max */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .movie-container img {
@@ -33,13 +59,6 @@
 
 .movie-info {
     padding: 0 7px;
-}
-
-.movie-overview {
-    display: -webkit-box;
-    -webkit-line-clamp: 3; /* Truncate after 3 lines */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
 }
 
 .movie-lazy-load {
@@ -55,6 +74,10 @@
     color: rgb(122, 122, 122);
 }
 
+.movie-info p:not(.movie-overview) {
+    font-weight: bold;
+}
+
 .movie-container::-webkit-scrollbar,
 .modal::-webkit-scrollbar {
     display: none;
@@ -65,13 +88,55 @@
 }
 
 .movie-title {
-    font-size: 20px;
+    font-size: 1.2rem;
     text-align: center;
+    margin-bottom: 8px;
     text-transform: uppercase;
 }
 
+.movie-genre {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.movie-release-year {
+    font-size: 0.9rem;
+    color: #cccccc; /* Muted color to reduce visual priority */
+    margin-bottom: 5px;
+}
+
+/* Vote average */
+.movie-vote-average {
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
 @media (max-width: 497px) {
-    .movie-container {
-        width: 75%;
+    .movie-list-container {
     }
 }
+
+.read-more {
+    color: #007bff; /* Blue color for the link */
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: 5px;
+}
+
+.read-more:hover {
+    color: #0056b3; /* Darker blue on hover */
+}
+
+/* Expanded overview styling */
+.movie-overview.expanded {
+    -webkit-line-clamp: unset; /* Remove line clamping */
+    overflow: visible; /* Allow full content to show */
+    text-overflow: unset; /* Disable truncation */
+    white-space: normal; /* Allow multiline text */
+}
+
+
