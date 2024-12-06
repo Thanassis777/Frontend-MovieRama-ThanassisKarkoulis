@@ -3,13 +3,9 @@
 }
 
 .header {
-    position: relative;
-    padding: 15px 30px;
-    background-color: var(--main-bg-color);
-    border-bottom: 2px solid black;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    justify-content: space-between; /* Distribute space evenly */
     align-items: center;
 }
 
@@ -22,10 +18,6 @@
 }
 
 .search {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     height: 100%;
     display: flex;
 }
@@ -73,4 +65,35 @@ input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration {
     display: none;
+}
+
+.dark-mode-toggle {
+    background-color: #333; /* Dark button color for contrast */
+    color: #fff; /* Text color for visibility */
+    border: 2px solid #555; /* Subtle border for depth */
+    border-radius: 10px; /* Rounded edges for a softer look */
+    padding: 10px 20px; /* Adequate padding for a clickable button */
+    font-size: 1rem; /* Readable text size */
+    font-weight: bold; /* Bold text for emphasis */
+    cursor: pointer; /* Pointer cursor to indicate interactivity */
+    transition: all 0.3s ease; /* Smooth transitions for hover effects */
+}
+
+.dark-mode-toggle:hover {
+    background-color: #555; /* Slightly lighter background on hover */
+    border-color: #777; /* Lighten border on hover */
+    color: #ddd; /* Softer text color on hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Add shadow for depth */
+}
+
+.dark-mode-toggle:active {
+    background-color: #222; /* Darker color when active */
+    transform: scale(0.95); /* Slightly shrink on click */
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column; /* Stack items vertically on smaller screens */
+        gap: 10px; /* Add spacing between stacked items */
+    }
 }
