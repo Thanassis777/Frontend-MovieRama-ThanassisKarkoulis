@@ -49,6 +49,7 @@
 .author {
     text-decoration: underline;
     font-weight: 700;
+    padding-bottom: 10px;
 }
 
 .similar-container {

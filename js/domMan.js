@@ -1,3 +1,16 @@
+// Utility functions for DOM manipulation
+const createElement = (tag, classNames = [], attributes = {}, textContent = "") => {
+  const element = document.createElement(tag);
+  classNames.forEach((className) => element.classList.add(className));
+  Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
+  if (textContent) element.textContent = textContent;
+  return element;
+};
+
+const appendChildren = (parent, ...children) => {
+  children.forEach((child) => parent.appendChild(child));
+};
+
 const createMovieElement = (movie) => {
   const movieContainer = createElement("div", ["movie-container"]);
 
@@ -29,8 +42,16 @@ const createMovieElement = (movie) => {
   return movieContainer;
 };
 
+const observeLazyImages = () => {
+  document.querySelectorAll(".movie-lazy-load:not(.loaded)").forEach((img) => {
+    lazyLoadImage(img, img.getAttribute("data-src"));
+  });
+};
+
 const createModal = (movieData) => {
   const existingModal = document.querySelector(".modal");
+  const mainContainer = document.querySelector(".main-container");
+
   if (existingModal) existingModal.remove();
 
   const modal = createElement("div", ["modal"]);
@@ -57,17 +78,14 @@ const createModal = (movieData) => {
   observeLazyImages();
 };
 
-const observeLazyImages = () => {
-  document.querySelectorAll(".movie-lazy-load:not(.loaded)").forEach((img) => {
-    lazyLoadImage(img, img.getAttribute("data-src"));
-  });
-};
-
 const renderMovies = () => {
-  let moviesToRender = searchbox.value ? state.searchMovies : state.movies;
+  const searchBox = document.getElementById("query");
+
+  let moviesToRender = searchBox.value ? state.searchMovies : state.movies;
 
   moviesToRender[moviesToRender.length - 1]?.movieList.forEach((movie) => {
     const movieContainer = createMovieElement(movie);
+    const movieListContainer = document.querySelector(".movie-list-container");
 
     movieListContainer.appendChild(movieContainer);
     observeLazyImages();
@@ -77,4 +95,63 @@ const renderMovies = () => {
 const handleModal = async (movieId) => {
   const movieData = await fetchMovie(movieId);
   createModal(movieData);
+};
+
+const createYouTubeIframe = (videoId) => {
+  const iframe = document.createElement("iframe");
+  iframe.src = `https://www.youtube.com/embed/${videoId}`;
+  iframe.setAttribute("frameborder", "0");
+  iframe.setAttribute("allowfullscreen", "true");
+  iframe.width = 640;
+  iframe.height = 390;
+
+  return iframe;
+};
+
+const createModalHero = (movieData) => {
+  const modalHero = createElement("div", ["modal-info-hero"]);
+
+  // Video
+  const video = createElement("div", ["video"]);
+  if (movieData.trailer?.key) {
+    video.appendChild(createYouTubeIframe(movieData.trailer.key));
+  } else {
+    const noVideo = createElement("img", ["no-video"], { src: "./assets/icons/noVideo.png" });
+    video.appendChild(noVideo);
+  }
+
+  // Reviews
+  const reviews = createElement("div", ["reviews"]);
+  const reviewsTitle = createElement("h2", [], {}, "Reviews");
+  appendChildren(reviews, reviewsTitle);
+
+  if (movieData.reviews.length) {
+    movieData.reviews.forEach((review) => {
+      const reviewContainer = createElement("div", ["review-container"]);
+      const author = createElement("div", ["author"], {}, review.author);
+      const reviewContent = createElement("div", ["review-content"], {}, review.content);
+      appendChildren(reviewContainer, author, reviewContent);
+      reviews.appendChild(reviewContainer);
+    });
+  } else {
+    const noReviews = createElement("div", ["no-reviews-available"], {}, "No reviews available");
+    reviews.appendChild(noReviews);
+  }
+
+  appendChildren(modalHero, video, reviews);
+  return modalHero;
+};
+
+const createSimilarMoviesSection = (similarMovies) => {
+  const similar = createElement("div", ["similar"]);
+  const similarTitle = createElement("h2", ["similar-title"], {}, "Similar");
+  const similarContainer = createElement("div", ["similar-container"]);
+
+  similarMovies.forEach((movie) => {
+    const movieContainer = createMovieElement(movie);
+    similarContainer.appendChild(movieContainer);
+  });
+
+  appendChildren(similar, similarTitle, similarContainer);
+  return similar;
 };

@@ -1,20 +1,3 @@
-const apiKey = "bc50218d91157b1ba4f142ef7baaa6a0";
-const baseUrl = `https://api.themoviedb.org/3/`;
-const nowPlayingUrl = `${baseUrl}movie/now_playing?api_key=${apiKey}`;
-const genreUrl = `${baseUrl}genre/movie/list?api_key=${apiKey}`;
-const searchUrl = `${baseUrl}search/movie`;
-const searchMovieUrl = `${baseUrl}movie`;
-
-const searchbox = document.getElementById("query");
-const modal = document.querySelector(".modal");
-const mainContainer = document.querySelector(".main-container");
-const closeModalBtn = document.querySelector(".close-modal");
-const moviesContainer = document.querySelector(".movies");
-const moviesTitle = document.querySelector(".movies-title");
-const movieListContainer = document.querySelector(".movie-list-container");
-
-moviesTitle.innerHTML = "Playing Now";
-
 //single source of truth
 const state = {
     genres: {},
@@ -63,11 +46,13 @@ const fetchMovie = async (id) => {
 };
 
 const fetchMovies = async () => {
+    const searchBox = document.getElementById("query");
+
     try {
         let response;
 
-        if (searchbox.value) {
-            response = await fetch(`${searchUrl}?query=${searchbox.value}&page=${state.searchMovies.length + 1}&api_key=${apiKey}`);
+        if (searchBox.value) {
+            response = await fetch(`${searchUrl}?query=${searchBox.value}&page=${state.searchMovies.length + 1}&api_key=${apiKey}`);
             const data = await response.json();
 
             state.searchMovies = [
@@ -97,38 +82,5 @@ const main = async () => {
 };
 
 const throttledFetching = throttle(fetchMovies, 1000);
-
-window.addEventListener("scroll", () => {
-    const isAtBottom = isScrolledToBottom();
-    if (isAtBottom) {
-        throttledFetching();
-    }
-});
-
-searchbox.addEventListener("input", (event) => {
-    event.preventDefault();
-    const searchTerm = event.target.value;
-    movieListContainer.innerHTML = "";
-    resetState();
-    searchTerm
-        ? (moviesTitle.innerHTML = "Search results:")
-        : (moviesTitle.innerHTML = "Playing Now");
-
-    debounce(fetchMovies, 1000)();
-});
-
-searchbox.addEventListener("keypress", (event) => {
-    if (event.keyCode === 13) {
-        event.preventDefault();
-    }
-});
-
-document.addEventListener("keydown", (event) => {
-    const modal = document.querySelector(".modal");
-
-    if (event.key === "Escape" && modal) {
-        modal.remove();
-    }
-});
 
 main();
