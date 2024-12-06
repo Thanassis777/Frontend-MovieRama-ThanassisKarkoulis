@@ -31,9 +31,21 @@ const createMovieElement = (movie) => {
   const voteNumber = createElement("span", ["vote-number"], {}, movie.vote_average);
   const voteAverage = createElement("p", ["movie-vote-average"], {}, "Vote Average: ");
   voteAverage.appendChild(voteNumber);
-  const overview = createElement("p", ["movie-overview"], {}, movie.overview);
 
-  appendChildren(movieInfo, title, releaseYear, genre, voteAverage, overview);
+  // Description with Expand/Collapse
+  const overview = createElement("p", ["movie-overview"], {}, movie.overview);
+  const toggleButton = createElement("span", ["read-more"], {}, "Read More");
+
+  toggleButton.addEventListener("click", (event) => {
+    // Prevent event propagation to parent container
+    event.stopPropagation();
+
+    // Toggle expanded description
+    overview.classList.toggle("expanded");
+    toggleButton.textContent = overview.classList.contains("expanded") ? "Read Less" : "Read More";
+  });
+
+  appendChildren(movieInfo, title, releaseYear, genre, voteAverage, overview, toggleButton);
   appendChildren(movieContainer, poster, movieInfo);
 
   // Event Listener for Modal
