@@ -14,6 +14,10 @@
 }
 
 .movie-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Spread the title and content */
+
     border: 2px solid #989cf4; /* Bright gold border to make it stand out */
     border-radius: 15px; /* Rounded corners for a softer look */
     padding: 10px;
@@ -34,7 +38,7 @@
 }
 
 .movie-title, .movie-genre, .movie-overview, .movie-vote-average {
-    word-break: break-all;
+    /*word-break: break-all;*/
 }
 
 /* Add star icons for ratings */
@@ -93,8 +97,9 @@
     color: rgb(122, 122, 122);
 }
 
-.movie-info p:not(.movie-overview) {
+.movie-content p:not(.movie-overview) {
     font-weight: bold;
+    margin: 5px 0;
 }
 
 .movie-container::-webkit-scrollbar,
@@ -107,21 +112,36 @@
 }
 
 .movie-title {
-    font-size: 1.2rem;
+    color: #696969;
+    font-style: italic;
+    font-size: 1rem;
     text-align: center;
-    margin-bottom: 8px;
-    text-transform: uppercase;
+    margin-bottom: 5px;
+
+    white-space: normal;
+    word-wrap: break-word;
+
+    overflow: hidden; /* Hide overflowed text */
+    text-overflow: ellipsis;
 }
 
 .movie-genre {
-    font-size: 0.9rem;
-    margin-bottom: 10px;
+    font-size: 0.85rem;
+    /*margin-bottom: 10px;*/
+}
+
+.movie-content {
+    flex-grow: 1; /* Allow the content to adjust dynamically */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensure a consistent gap */
+    align-items: center;
+    text-align: center;
 }
 
 .movie-release-year {
     font-size: 0.9rem;
-    color: #cccccc; /* Muted color to reduce visual priority */
-    margin-bottom: 5px;
+    /*margin-bottom: 5px;*/
 }
 
 /* Vote average */
@@ -129,14 +149,13 @@
     font-size: 0.9rem;
     display: flex;
     align-items: center;
-    margin-bottom: 8px;
+    /*margin-bottom: 2px;*/
 }
 
 .read-more {
     color: #007bff; /* Blue color for the link */
     cursor: pointer;
     font-size: 0.85rem;
-    font-weight: bold;
     text-decoration: underline;
     margin-top: 5px;
 }

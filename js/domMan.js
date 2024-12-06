@@ -18,9 +18,11 @@ const createMovieElement = (movie) => {
   const poster = createElement("img", ["movie-poster"]);
   lazyLoadImage(poster, getImage(movie.backdrop_path));
 
-  // Movie Info
-  const movieInfo = createElement("div", ["movie-info"]);
+  // Title (Separate Section)
   const title = createElement("h2", ["movie-title"], {}, movie.title);
+
+  // Content (All elements except title)
+  const movieContent = createElement("div", ["movie-content"]);
   const releaseYear = createElement("p", ["movie-release-year"], {}, `Release: ${movie.release_date}`);
   const genre = createElement(
       "p",
@@ -37,16 +39,15 @@ const createMovieElement = (movie) => {
   const toggleButton = createElement("span", ["read-more"], {}, "Read More");
 
   toggleButton.addEventListener("click", (event) => {
-    // Prevent event propagation to parent container
+    // Prevent propagation to avoid modal opening
     event.stopPropagation();
-
-    // Toggle expanded description
     overview.classList.toggle("expanded");
     toggleButton.textContent = overview.classList.contains("expanded") ? "Read Less" : "Read More";
   });
 
-  appendChildren(movieInfo, title, releaseYear, genre, voteAverage, overview, toggleButton);
-  appendChildren(movieContainer, poster, movieInfo);
+  // Append content into the movie-content div
+  appendChildren(movieContent, releaseYear, genre, voteAverage, overview, toggleButton);
+  appendChildren(movieContainer, poster, title, movieContent);
 
   // Event Listener for Modal
   movieContainer.addEventListener("click", () => handleModal(movie.id));
