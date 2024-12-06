@@ -1,0 +1,80 @@
+@keyframes scale-up {
+    from {
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.modal {
+    transform: scale(0.5);
+    background-color: var(--main-bg-color);
+    padding: 20px;
+    width: 50%;
+    height: 70%;
+    border: 5px solid black;
+    border-radius: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    animation: scale-up 0.5s ease forwards;
+    overflow: scroll;
+}
+
+.modal button {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.modal-info-title {
+    font-size: 35px;
+    font-weight: 700;
+    border-bottom: 1px solid black;
+    margin-bottom: 10px;
+}
+
+.reviews {
+    max-height: 390px;
+    overflow: auto;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.review-container {
+    margin: 20px 0;
+}
+
+.author {
+    text-decoration: underline;
+    font-weight: 700;
+}
+
+.similar-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.similar-container .movie-container {
+    border-color: black;
+}
+
+.video {
+    iframe {
+        width: 100%;
+    }
+}
+
+.no-video {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .modal {
+        width: 90%;
+    }
+}
+

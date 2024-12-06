@@ -58,7 +58,7 @@ const createModal = (movieData) => {
 };
 
 const observeLazyImages = () => {
-  document.querySelectorAll(".lazy-load:not(.loaded)").forEach((img) => {
+  document.querySelectorAll(".movie-lazy-load:not(.loaded)").forEach((img) => {
     lazyLoadImage(img, img.getAttribute("data-src"));
   });
 };

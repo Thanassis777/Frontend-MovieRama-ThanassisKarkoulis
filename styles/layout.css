@@ -36,3 +36,41 @@
     align-items: center;
     position: relative;
 }
+
+.search input {
+    height: 40px;
+    padding: 0 15px;
+    width: 300px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+
+    text-indent: 0; /* Remove additional padding */
+
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.search input:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.search-form > button {
+    position: absolute;
+    cursor: pointer;
+    width: 40px;
+    background-color: transparent;
+    border: 0;
+    right: 0;
+}
+
+.search-form > button > img {
+    width: 100%;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+    display: none;
+}

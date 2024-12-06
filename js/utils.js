@@ -46,8 +46,6 @@ const handleFetchError = (error) => {
   alert("Something went wrong. Please try again later.");
 };
 
-
-
 // Utility functions for DOM manipulation
 const createElement = (tag, classNames = [], attributes = {}, textContent = "") => {
   const element = document.createElement(tag);
@@ -64,7 +62,7 @@ const appendChildren = (parent, ...children) => {
 // Lazy-load images
 const lazyLoadImage = (img, src) => {
   img.setAttribute("data-src", src);
-  img.classList.add("lazy-load");
+  img.classList.add("movie-lazy-load");
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver((entries, obs) => {
       entries.forEach((entry) => {
@@ -115,7 +113,6 @@ const createModalHero = (movieData) => {
   appendChildren(modalHero, video, reviews);
   return modalHero;
 };
-
 
 const createSimilarMoviesSection = (similarMovies) => {
   const similar = createElement("div", ["similar"]);
