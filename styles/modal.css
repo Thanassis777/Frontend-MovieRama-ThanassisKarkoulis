@@ -13,19 +13,20 @@
     padding: 20px;
     width: 90%;
     max-width: 700px;
-    height: auto;
     max-height: 80vh; /* Prevent the modal from overlapping the header */
     border: 4px solid black;
     border-radius: 15px;
     position: fixed;
     top: 50%;
     left: 50%;
-    overflow-y: auto; /* Enable scrolling if content exceeds height */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     z-index: 1001; /* Ensure it stays above the header */
-
     opacity: 0; /* Initially hidden */
     transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transitions for opacity and scale */
+
+    transform: translate(-50%, -50%);
+    height: 80vh;
+    overflow: hidden; /* Ensure content stays within the modal */
 }
 
 .modal.open {
@@ -41,6 +42,19 @@
 .modal.closing {
     opacity: 0; /* Fade out */
     transform: translate(-50%, -50%) scale(0.9); /* Scale down slightly */
+}
+
+/* Modal Header Styles */
+.modal-header {
+    position: sticky;
+    top: 0;
+    background-color: var(--main-bg-color);
+    z-index: 1002; /* Ensure it stays above the content */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
 }
 
 /* Optional: Background Overlay for Dim Effect */
@@ -62,11 +76,7 @@
     visibility: visible; /* Make the overlay visible */
 }
 
-/* Close Button Styling */
 .close-modal {
-    position: absolute;
-    top: 10px;
-    right: 10px;
     background-color: #ff4f4f;
     color: white;
     border: none;
@@ -74,12 +84,11 @@
     height: 30px;
     font-size: 1.2rem;
     cursor: pointer;
-    border-radius: 50%; /* Make it perfectly round */
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    z-index: 1001; /* Ensure it stays above the title */
 }
 
 .close-modal:hover {
@@ -87,16 +96,25 @@
     transform: scale(1.1); /* Add slight zoom-in effect */
 }
 
+/* Hide the scrollbar while keeping scrolling enabled */
+.modal-content {
+    height: calc(80vh - 50px); /* Subtract the height of the modal header */
+    overflow-y: scroll; /* Enable vertical scrolling */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+}
+
+/* Hide the scrollbar for WebKit-based browsers (e.g., Chrome, Safari) */
+.modal-content::-webkit-scrollbar {
+    display: none;
+}
+
 /* Title and Sections Styling */
 .modal-info-title {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: bold;
     color: #333;
     text-align: center;
-    margin-right: 50px; /* Add spacing to prevent overlap with the close button */
-    margin-bottom: 30px;
-    word-wrap: break-word; /* Allow long titles to wrap to the next line */
-    line-height: 1.2; /* Adjust line spacing for better readability */
 }
 
 /* Ensure sections like Reviews and Similar Movies are properly spaced */
@@ -129,6 +147,21 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
+.review-content {
+    text-align: justify;
+    line-height: 1.45;
+}
+
+.review-container {
+    margin-bottom: 20px;
+}
+
+.author {
+    font-weight: bold;
+    text-decoration: underline;
+    padding-bottom: 10px;
+}
+
 /* Video Section Styling */
 .video {
     display: flex;
@@ -154,6 +187,16 @@
     .modal {
         max-width: 95%;
         max-height: 85vh;
+    }
+
+    .modal-info-title {
+        font-size: 1.2rem;
+    }
+
+    .close-modal {
+        width: 25px;
+        height: 25px;
+        font-size: 1rem;
     }
 
     .similar-container {

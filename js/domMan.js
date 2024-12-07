@@ -64,33 +64,29 @@ const observeLazyImages = () => {
 const createModal = (movieData) => {
   const existingModal = document.querySelector(".modal");
   const mainContainer = document.querySelector(".main-container");
+  const modalOverlay = document.querySelector(".modal-overlay");
 
   if (existingModal) existingModal.remove();
 
   const modal = createElement("div", ["modal"]);
- const modalOverlay = document.querySelector(".modal-overlay");
 
-  const modalInfo = createElement("div", ["modal-info"]);
-
-  // Title
+  // Create a fixed header for the modal
+  const modalHeader = createElement("div", ["modal-header"]);
   const modalInfoTitle = createElement("div", ["modal-info-title"], {}, movieData.movie.title);
-
-  // Hero Section (Video + Reviews)
-  const modalHero = createModalHero(movieData);
-
-  // Similar Movies Section
-  const similarMovies = createSimilarMoviesSection(movieData.similar);
-
-  // Close Button
   const closeButton = createElement("button", ["close-modal"], {}, "X");
   closeButton.addEventListener("click", () => closeModal(modal, modalOverlay));
 
-  appendChildren(modalInfo, modalInfoTitle, modalHero, similarMovies);
-  appendChildren(modal, modalInfo, closeButton);
-  mainContainer.appendChild(modal);
+  appendChildren(modalHeader, modalInfoTitle, closeButton);
 
-  // Lazy load images in modal
-  observeLazyImages();
+  // Create the scrollable content section
+  const modalContent = createElement("div", ["modal-content"]);
+  const modalHero = createModalHero(movieData);
+  const similarMovies = createSimilarMoviesSection(movieData.similar);
+
+  appendChildren(modalContent, modalHero, similarMovies);
+
+  appendChildren(modal, modalHeader, modalContent);
+  mainContainer.appendChild(modal);
 };
 
 const renderMovies = () => {
@@ -132,31 +128,38 @@ const handleModal = async (movieId) => {
     modal.classList.add("open");
     modalOverlay.classList.add("open");
 
+    console.log(9999, modal, 'modal')
+    console.log(9999, modalOverlay, 'modalOverlay' )
+
     // Add click listener to the overlay to close the modal
     modalOverlay.addEventListener("click", () => closeModal(modal, modalOverlay));
+
   } catch (error) {
     console.error("Error handling modal:", error);
   }
 };
 
 const closeModal = (modal, modalOverlay) => {
-  // Add "closing" class to trigger CSS animation
-  modal.classList.add("closing");
-  modalOverlay.classList.add("closing");
+  if (modal) {
+    modal.classList.add("closing"); // Add a closing animation if desired
+  }
+  if (modalOverlay) {
+    modalOverlay.classList.add("closing"); // Add a closing animation for the overlay
+  }
 
-  // Remove modal and overlay after the transition ends
+  // Wait for animations to end before cleanup
   const cleanup = () => {
     modal.remove();
     modalOverlay.remove();
   };
 
-  // Use `transitionend` but also include a fallback with `setTimeout`
-  modal.addEventListener("transitionend", cleanup, { once: true });
+  if (modal) {
+    modal.addEventListener("transitionend", cleanup, { once: true });
+  }
 
-  // Fallback in case `transitionend` doesn't fire
-  setTimeout(cleanup, 300); // Match the duration of your CSS transition (300ms)
+  // Fallback in case transition events don't trigger
+  setTimeout(cleanup, 300); // Match CSS transition duration (if any)
 };
-
 
 const createYouTubeIframe = (videoId) => {
   const iframe = document.createElement("iframe");
