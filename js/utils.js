@@ -30,15 +30,23 @@ const resetState = () => {
   state.searchMovies = [];
 };
 
-const handleFetchError = (error) => {
-  console.error("Error fetching data:", error);
-  alert("Something went wrong. Please try again later.");
+const handleFetchError = (error, retries = 3) => {
+  if (retries > 0) {
+    console.warn(`Retrying... (${3 - retries} attempts left)`);
+    setTimeout(() => fetch(...args).catch((e) => handleFetchError(e, retries - 1)), 1000);
+  } else {
+    console.error("Error fetching data:", error);
+    alert("Something went wrong. Please try again later.");
+  }
 };
+
 
 // Lazy-load images
 const lazyLoadImage = (img, src) => {
+  img.src = "./assets/icons/loading.gif"; // Placeholder image
   img.setAttribute("data-src", src);
   img.classList.add("movie-lazy-load");
+
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver((entries, obs) => {
       entries.forEach((entry) => {

@@ -21,28 +21,23 @@ const fetchGenres = async () => {
 };
 
 const fetchMovie = async (id) => {
-    const movieRes = await fetch(`${searchMovieUrl}/${id}?api_key=${apiKey}`);
-    const movieData = await movieRes.json();
+    try {
+        const [movieData, videoData, reviewsData, similarData] = await Promise.all([
+            fetch(`${searchMovieUrl}/${id}?api_key=${apiKey}`).then(res => res.json()),
+            fetch(`${searchMovieUrl}/${id}/videos?api_key=${apiKey}`).then(res => res.json()),
+            fetch(`${searchMovieUrl}/${id}/reviews?api_key=${apiKey}`).then(res => res.json()),
+            fetch(`${searchMovieUrl}/${id}/similar?api_key=${apiKey}`).then(res => res.json()),
+        ]);
 
-    const movieVideoRes = await fetch(`${searchMovieUrl}/${id}/videos?api_key=${apiKey}`);
-    const videoData = await movieVideoRes.json();
+        const videoTrailer = videoData.results.find(result => result.type === "Trailer");
+        const reviews = reviewsData.results.slice(0, 2);
+        const similar = similarData.results.slice(0, 7);
 
-    const reviewsRes = await fetch(`${searchMovieUrl}/${id}/reviews?api_key=${apiKey}`);
-    const reviewsData = await reviewsRes.json();
-
-    const similarsRes = await fetch(`${searchMovieUrl}/${id}/similar?api_key=${apiKey}`);
-    const similarData = await similarsRes.json();
-
-    const videoTrailer = videoData.results.find((result) => result.type === "Trailer");
-    const reviews = reviewsData.results.slice(0, 2);
-    const similar = similarData.results.slice(0, 7);
-
-    return {
-        movie: movieData,
-        trailer: videoTrailer,
-        reviews,
-        similar
-    };
+        return { movie: movieData, trailer: videoTrailer, reviews, similar };
+    } catch (error) {
+        handleFetchError(error);
+        return null;
+    }
 };
 
 const fetchMovies = async () => {
