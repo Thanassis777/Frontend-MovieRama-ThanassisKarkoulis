@@ -53,6 +53,7 @@
     -webkit-line-clamp: 4; /* Display 4 lines max */
     -webkit-box-orient: vertical;
     overflow: hidden;
+    text-align: justify;
 }
 
 .movie-overview.expanded {

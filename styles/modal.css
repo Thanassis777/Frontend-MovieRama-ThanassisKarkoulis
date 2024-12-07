@@ -31,7 +31,7 @@
 
 .modal.open {
     opacity: 1; /* Fully visible */
-    animation: scale-up 0.3s ease forwards;
+    animation: scale-up 0.6s ease forwards;
 }
 
 .modal-overlay.closing {
