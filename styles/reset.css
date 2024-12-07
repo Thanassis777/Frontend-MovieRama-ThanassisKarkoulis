@@ -44,8 +44,3 @@ body.dark-mode .dark-mode-toggle:hover {
     color: #000;
     border-color: #999;
 }
-
-body.dark-mode .logo img {
-    filter: invert(1) brightness(1.5); /* Invert colors and brighten */
-    transition: filter 0.3s ease; /* Smooth transition */
-}
