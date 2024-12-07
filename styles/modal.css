@@ -129,7 +129,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-/* Video Container */
+/* Video Section Styling */
 .video {
     display: flex;
     justify-content: center;
@@ -137,18 +137,16 @@
     margin: 20px 0;
     width: 100%;
     height: auto;
-    max-height: 300px; /* Limit the height to fit the modal content */
-    background-color: #333; /* Optional: Background color for the video area */
+    background-color: #000; /* Black background for better contrast */
     border-radius: 8px;
-    overflow: hidden;
 }
 
 /* No Video Placeholder Image */
 .no-video {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain; /* Ensure the image scales to fit within the container */
-    border-radius: 8px; /* Match the container's border radius */
+    object-fit: contain; /* Keeps aspect ratio */
+    border-radius: 8px;
 }
 
 /* Responsive Adjustments */
