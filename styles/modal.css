@@ -124,8 +124,9 @@
 /* Similar Movies Layout */
 .similar-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 20px;
 }
 
 .no-similar-movies {
@@ -133,16 +134,45 @@
 }
 
 .similar-container .movie-container {
-    border-radius: 10px;
-    background-color: #f4f4f4;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    padding: 10px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px; /* Smoothen corners */
+    background-color: #f9f9f9; /* Light background for contrast */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+    padding: 10px; /* Add padding inside the card */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add smooth hover effect */
+    text-align: center; /* Align content to center */
 }
 
 .similar-container .movie-container:hover {
     transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25); /* More pronounced shadow on hover */
+}
+
+.similar-container .movie-title {
+    font-size: 1rem; /* Increase the font size */
+    font-weight: bold; /* Highlight the title */
+    color: #333; /* Use a consistent dark color */
+    margin-top: 10px;
+}
+
+.similar-container img {
+    width: 100%;
+    height: 220px; /* Adjust for consistent height */
+    object-fit: cover; /* Ensure image fills the card proportionally */
+    border-radius: 8px; /* Match the card border radius */
+}
+
+.similar-container .movie-genre,
+.similar-container .movie-release-year,
+.similar-container .movie-vote-average {
+    font-size: 0.85rem; /* Keep supporting info smaller */
+    color: #666; /* Use a softer color */
+    margin: 5px 0;
+}
+
+.similar-container .read-more {
+    color: #007bff; /* Make the link stand out */
+    text-decoration: underline;
+    font-size: 0.85rem;
 }
 
 .review-content {
@@ -198,6 +228,16 @@
     }
 
     .similar-container {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Smaller cards for small screens */
+        gap: 15px; /* Slightly less spacing */
+    }
+
+    .similar-container img {
+        height: 180px; /* Reduce image height */
+    }
+
+    .similar-container .movie-title {
+        font-size: 0.9rem; /* Slightly smaller text for titles */
     }
 }
+
