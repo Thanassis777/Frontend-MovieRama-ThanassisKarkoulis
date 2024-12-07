@@ -1,4 +1,6 @@
 const searchBox = document.getElementById("query");
+const modal = document.querySelector(".modal");
+const modalOverlay = document.querySelector(".modal-overlay");
 
 const moviesTitle = document.querySelector(".movies-title");
 moviesTitle.innerHTML = "Playing Now";
@@ -26,15 +28,20 @@ searchBox.addEventListener("keypress", (event) => {
 });
 
 document.addEventListener("keydown", (event) => {
-    const modal = document.querySelector(".modal");
+    if (event.key === "Escape") {
+        const modal = document.querySelector(".modal");
+        const modalOverlay = document.querySelector(".modal-overlay");
 
-    if (event.key === "Escape" && modal) {
-        modal.remove();
+        if (modal && modalOverlay) {
+            closeModal(modal, modalOverlay);
+        }
     }
 });
 
 window.addEventListener("scroll", () => {
     const isAtBottom = isScrolledToBottom();
+    const throttledFetching = throttle(fetchMovies, 1000);
+
     if (isAtBottom) {
         throttledFetching();
     }
@@ -42,7 +49,6 @@ window.addEventListener("scroll", () => {
 
 // Dynamically adjust modal size and position on window resize
 window.addEventListener("resize", () => {
-    const modal = document.querySelector(".modal");
     if (modal) {
         modal.style.maxHeight = "80vh";
         modal.style.top = "50%";
@@ -53,8 +59,6 @@ window.addEventListener("resize", () => {
 // Adjust close button to use the smooth close
 document.addEventListener("click", (event) => {
     if (event.target.matches(".close-modal")) {
-        const modal = document.querySelector(".modal");
-        const modalOverlay = document.querySelector(".modal-overlay");
         closeModal(modal, modalOverlay);
     }
 });

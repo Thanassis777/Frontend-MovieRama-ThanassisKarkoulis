@@ -81,6 +81,4 @@ const main = async () => {
     await fetchMovies();
 };
 
-const throttledFetching = throttle(fetchMovies, 1000);
-
 main();

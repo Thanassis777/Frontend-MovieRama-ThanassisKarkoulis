@@ -79,6 +79,7 @@
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    z-index: 1001; /* Ensure it stays above the title */
 }
 
 .close-modal:hover {
@@ -90,9 +91,12 @@
 .modal-info-title {
     font-size: 1.8rem;
     font-weight: bold;
-    margin-bottom: 15px;
     color: #333;
     text-align: center;
+    margin-right: 50px; /* Add spacing to prevent overlap with the close button */
+    margin-bottom: 30px;
+    word-wrap: break-word; /* Allow long titles to wrap to the next line */
+    line-height: 1.2; /* Adjust line spacing for better readability */
 }
 
 /* Ensure sections like Reviews and Similar Movies are properly spaced */
@@ -108,6 +112,10 @@
     gap: 10px;
 }
 
+.no-similar-movies {
+    grid-column: 1 / -1; /* Span the entire width of the grid */
+}
+
 .similar-container .movie-container {
     border-radius: 10px;
     background-color: #f4f4f4;
@@ -119,6 +127,28 @@
 .similar-container .movie-container:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Video Container */
+.video {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    width: 100%;
+    height: auto;
+    max-height: 300px; /* Limit the height to fit the modal content */
+    background-color: #333; /* Optional: Background color for the video area */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* No Video Placeholder Image */
+.no-video {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Ensure the image scales to fit within the container */
+    border-radius: 8px; /* Match the container's border radius */
 }
 
 /* Responsive Adjustments */

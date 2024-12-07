@@ -172,19 +172,24 @@ const createYouTubeIframe = (videoId) => {
 const createModalHero = (movieData) => {
   const modalHero = createElement("div", ["modal-info-hero"]);
 
-  // Video
+  // Video Section
   const video = createElement("div", ["video"]);
   if (movieData.trailer?.key) {
+    // If video is available, embed it
     video.appendChild(createYouTubeIframe(movieData.trailer.key));
   } else {
-    const noVideo = createElement("img", ["no-video"], { src: "./assets/icons/noVideo.png", alt: "no-video" });
-    video.appendChild(noVideo);
+    // If no video is available, display the "No Video" image
+    const noVideoImg = createElement("img", ["no-video"], {
+      src: "./assets/icons/noVideo.png",
+      alt: "No Video Available",
+    });
+    video.appendChild(noVideoImg);
   }
 
-  // Reviews
+  // Reviews Section
   const reviews = createElement("div", ["reviews"]);
   const reviewsTitle = createElement("h2", [], {}, "Reviews");
-  appendChildren(reviews, reviewsTitle);
+  reviews.appendChild(reviewsTitle);
 
   if (movieData.reviews.length) {
     movieData.reviews.forEach((review) => {
@@ -195,7 +200,12 @@ const createModalHero = (movieData) => {
       reviews.appendChild(reviewContainer);
     });
   } else {
-    const noReviews = createElement("div", ["no-reviews-available"], {}, "No reviews available");
+    const noReviews = createElement(
+        "div",
+        ["no-reviews-available"],
+        {},
+        "No reviews available"
+    );
     reviews.appendChild(noReviews);
   }
 
@@ -206,12 +216,26 @@ const createModalHero = (movieData) => {
 const createSimilarMoviesSection = (similarMovies) => {
   const similar = createElement("div", ["similar"]);
   const similarTitle = createElement("h2", ["similar-title"], {}, "Similar Movies");
+
+  // Container for similar movies
   const similarContainer = createElement("div", ["similar-container"]);
 
-  similarMovies.forEach((movie) => {
-    const movieContainer = createMovieElement(movie);
-    similarContainer.appendChild(movieContainer);
-  });
+  if (similarMovies.length) {
+    // If similar movies exist, render them
+    similarMovies.forEach((movie) => {
+      const movieContainer = createMovieElement(movie);
+      similarContainer.appendChild(movieContainer);
+    });
+  } else {
+    // If no similar movies, display a message
+    const noSimilarMovies = createElement(
+        "div",
+        ["no-similar-movies"],
+        {},
+        "No similar movies available"
+    );
+    similarContainer.appendChild(noSimilarMovies);
+  }
 
   appendChildren(similar, similarTitle, similarContainer);
   return similar;
