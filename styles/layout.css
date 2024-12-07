@@ -1,12 +1,22 @@
 .main-container {
     height: calc(100vh + 10px);
+    margin-top: 80px;
 }
 
 .header {
+    position: fixed; /* Fix the header to the top */
+    top: 0; /* Align it to the top */
+    left: 0; /* Align it to the left edge */
+    width: 100%; /* Make the header span the full width */
+    z-index: 1000; /* Ensure it stays on top of other content */
+    background-color: var(--main-bg-color); /* Background to match the theme */
+    border-bottom: 2px solid #000; /* Optional: Add a subtle border for separation */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: Shadow for depth */
     display: flex;
     flex-wrap: wrap; /* Allow items to wrap on smaller screens */
-    justify-content: space-between; /* Distribute space evenly */
+    justify-content: space-between;
     align-items: center;
+    padding: 10px 20px; /* Adjust padding for spacing */
 }
 
 .logo {
@@ -95,5 +105,9 @@ input[type="search"]::-webkit-search-results-decoration {
     .header {
         flex-direction: column; /* Stack items vertically on smaller screens */
         gap: 10px; /* Add spacing between stacked items */
+    }
+
+    .main-container {
+        margin-top: 180px;
     }
 }
