@@ -1,7 +1,6 @@
 .movies-title {
     font-size: 2.5rem;
     margin: 20px 0;
-    text-align: center;
     color: #333;
     text-transform: capitalize;
 }
@@ -38,7 +37,7 @@
 }
 
 .movie-title, .movie-genre, .movie-overview, .movie-vote-average {
-    /*word-break: break-all;*/
+    text-align: center;
 }
 
 /* Add star icons for ratings */
@@ -53,7 +52,6 @@
     -webkit-line-clamp: 4; /* Display 4 lines max */
     -webkit-box-orient: vertical;
     overflow: hidden;
-    text-align: justify;
 }
 
 .movie-overview.expanded {
@@ -116,7 +114,6 @@
     color: #696969;
     font-style: italic;
     font-size: 1rem;
-    text-align: center;
     margin-bottom: 5px;
 
     white-space: normal;
@@ -137,7 +134,6 @@
     flex-direction: column;
     justify-content: space-between; /* Ensure a consistent gap */
     align-items: center;
-    text-align: center;
 }
 
 .movie-release-year {
