@@ -39,3 +39,22 @@ window.addEventListener("scroll", () => {
         throttledFetching();
     }
 });
+
+// Dynamically adjust modal size and position on window resize
+window.addEventListener("resize", () => {
+    const modal = document.querySelector(".modal");
+    if (modal) {
+        modal.style.maxHeight = "80vh";
+        modal.style.top = "50%";
+        modal.style.transform = "translate(-50%, -50%)";
+    }
+});
+
+// Adjust close button to use the smooth close
+document.addEventListener("click", (event) => {
+    if (event.target.matches(".close-modal")) {
+        const modal = document.querySelector(".modal");
+        const modalOverlay = document.querySelector(".modal-overlay");
+        closeModal(modal, modalOverlay);
+    }
+});

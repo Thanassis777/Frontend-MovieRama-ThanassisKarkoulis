@@ -68,6 +68,8 @@ const createModal = (movieData) => {
   if (existingModal) existingModal.remove();
 
   const modal = createElement("div", ["modal"]);
+ const modalOverlay = document.querySelector(".modal-overlay");
+
   const modalInfo = createElement("div", ["modal-info"]);
 
   // Title
@@ -81,7 +83,7 @@ const createModal = (movieData) => {
 
   // Close Button
   const closeButton = createElement("button", ["close-modal"], {}, "X");
-  closeButton.addEventListener("click", () => modal.remove());
+  closeButton.addEventListener("click", () => closeModal(modal, modalOverlay));
 
   appendChildren(modalInfo, modalInfoTitle, modalHero, similarMovies);
   appendChildren(modal, modalInfo, closeButton);
@@ -106,9 +108,55 @@ const renderMovies = () => {
 };
 
 const handleModal = async (movieId) => {
-  const movieData = await fetchMovie(movieId);
-  createModal(movieData);
+  try {
+    // Create the overlay dynamically if it doesn't exist
+    let modalOverlay = document.querySelector(".modal-overlay");
+    if (!modalOverlay) {
+      modalOverlay = document.createElement("div");
+      modalOverlay.classList.add("modal-overlay");
+      document.body.appendChild(modalOverlay);
+    }
+
+    // Fetch movie data
+    const movieData = await fetchMovie(movieId);
+
+    // Remove any existing modal (if needed)
+    const existingModal = document.querySelector(".modal");
+    if (existingModal) existingModal.remove();
+
+    // Create a new modal
+    createModal(movieData);
+    const modal = document.querySelector(".modal");
+
+    // Ensure the modal starts hidden for smooth animation
+    modal.classList.add("open");
+    modalOverlay.classList.add("open");
+
+    // Add click listener to the overlay to close the modal
+    modalOverlay.addEventListener("click", () => closeModal(modal, modalOverlay));
+  } catch (error) {
+    console.error("Error handling modal:", error);
+  }
 };
+
+const closeModal = (modal, modalOverlay) => {
+  // Add "closing" class to trigger CSS animation
+  modal.classList.add("closing");
+  modalOverlay.classList.add("closing");
+
+  // Remove modal and overlay after the transition ends
+  const cleanup = () => {
+    modal.remove();
+    modalOverlay.remove();
+  };
+
+  // Use `transitionend` but also include a fallback with `setTimeout`
+  modal.addEventListener("transitionend", cleanup, { once: true });
+
+  // Fallback in case `transitionend` doesn't fire
+  setTimeout(cleanup, 300); // Match the duration of your CSS transition (300ms)
+};
+
 
 const createYouTubeIframe = (videoId) => {
   const iframe = document.createElement("iframe");
@@ -129,7 +177,7 @@ const createModalHero = (movieData) => {
   if (movieData.trailer?.key) {
     video.appendChild(createYouTubeIframe(movieData.trailer.key));
   } else {
-    const noVideo = createElement("img", ["no-video"], { src: "./assets/icons/noVideo.png" });
+    const noVideo = createElement("img", ["no-video"], { src: "./assets/icons/noVideo.png", alt: "no-video" });
     video.appendChild(noVideo);
   }
 
@@ -157,7 +205,7 @@ const createModalHero = (movieData) => {
 
 const createSimilarMoviesSection = (similarMovies) => {
   const similar = createElement("div", ["similar"]);
-  const similarTitle = createElement("h2", ["similar-title"], {}, "Similar");
+  const similarTitle = createElement("h2", ["similar-title"], {}, "Similar Movies");
   const similarContainer = createElement("div", ["similar-container"]);
 
   similarMovies.forEach((movie) => {
