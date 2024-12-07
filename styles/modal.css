@@ -51,7 +51,7 @@
     z-index: 1002; /* Ensure it stays above the content */
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
 }

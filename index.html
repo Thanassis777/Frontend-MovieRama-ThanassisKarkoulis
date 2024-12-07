@@ -1,51 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description"
+          content="MovieRama - Explore movies, watch trailers, and read reviews. A client-side movie catalog."/>
+
     <title>MovieRama - Explore Movies</title>
 
+    <!-- Preload critical assets for faster loading -->
+    <link rel="preload" href="./assets/logo.png" as="image">
+    <link rel="preload" href="./assets/icons/search.png" as="image">
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="styles/reset.css">
     <link rel="stylesheet" href="styles/layout.css">
     <link rel="stylesheet" href="styles/movie.css">
     <link rel="stylesheet" href="styles/modal.css">
-    <link rel="icon" href="./assets/logo.png" type="image/x-icon" />
-
-    <script src="constants.js" defer></script>
-    <script src="js/utils.js" defer></script>
-    <script src="js/domMan.js" defer></script>
-    <script src="js/eventListeners.js" defer></script>
-    <script src="js/theme.js" defer></script>
-    <script src="js/app.js" defer></script>
-  </head>
-  <body>
-    <div class="main-container">
-      <header class="header">
-        <div class="logo">
-          <img src="./assets/logo.png" alt="MovieRama Logo" loading="lazy" />
+    <link rel="icon" href="./assets/logo.png" type="image/x-icon"/>
+</head>
+<body>
+<!-- Main Container -->
+<div class="main-container">
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo" role="banner">
+            <img src="./assets/logo.png" alt="MovieRama Logo" loading="lazy"/>
         </div>
+        <!-- Search Section -->
         <div class="search">
-          <form class="search-form" id="form">
-            <input
-              type="search"
-              id="query"
-              name="search"
-              placeholder="Search Movies..."
-              aria-label="Search for movies"
-            />
-            <button type="submit" aria-label="Search">
-              <img src="./assets/icons/search.png" alt="Search Icon" loading="lazy" />
-            </button>
-          </form>
+            <form class="search-form" id="form" role="search" aria-label="Search for movies">
+                <input
+                        type="search"
+                        id="query"
+                        name="search"
+                        placeholder="Search Movies..."
+                        aria-label="Search for movies"
+                />
+                <button type="submit" aria-label="Submit Search">
+                    <img src="./assets/icons/search.png" alt="Search Icon" loading="lazy"/>
+                </button>
+            </form>
         </div>
-      </header>
+    </header>
 
-      <main>
+    <!-- Main Content -->
+    <main>
         <section class="movies">
-          <div class="movies-title"></div>
-          <div class="movie-list-container"></div>
+            <h1 class="movies-title" aria-live="polite"></h1>
+            <div class="movie-list-container" role="list"></div>
         </section>
-      </main>
-    </div>
-  </body>
+    </main>
+</div>
+
+<!-- Non-Critical JavaScript loaded asynchronously -->
+<script src="constants.js" defer></script>
+<script src="js/utils.js" defer></script>
+<script src="js/domMan.js" defer></script>
+<script src="js/eventListeners.js" defer></script>
+<script src="js/theme.js" defer></script>
+<script src="js/app.js" defer></script>
+</body>
 </html>

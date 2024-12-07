@@ -36,7 +36,7 @@
     content: "⭐";
 }
 
-.movie-title, .movie-genre, .movie-overview, .movie-vote-average {
+.movie-title, .movie-genre, .movie-overview, .movie-vote-average, .movies-title {
     text-align: center;
 }
 
