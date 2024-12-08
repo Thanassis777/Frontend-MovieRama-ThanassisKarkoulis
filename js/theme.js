@@ -1,4 +1,8 @@
-// Toggle Dark Mode
+/**
+ * Toggles the dark mode class on the body element.
+ * Updates the text content of the dark mode toggle button
+ * to indicate the current mode ("Dark Mode" or "Light Mode").
+ */
 const toggleDarkMode = () => {
     const body = document.body;
     const button = document.querySelector(".dark-mode-toggle");
@@ -14,7 +18,10 @@ const toggleDarkMode = () => {
     }
 };
 
-// Add a button to toggle dark mode
+/**
+ * Creates and appends a button to toggle dark mode to the header.
+ * The button listens for click events to toggle dark mode using `toggleDarkMode`.
+ */
 const createDarkModeButton = () => {
     const header = document.querySelector(".header");
     const button = document.createElement("button");
@@ -25,4 +32,5 @@ const createDarkModeButton = () => {
     header.appendChild(button);
 };
 
+// Initialize the dark mode toggle button
 createDarkModeButton();

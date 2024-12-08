@@ -1,4 +1,11 @@
-// Utility functions for DOM manipulation
+/**
+ * Creates an HTML element with the specified attributes, classes, and text content.
+ * @param {string} tag - The tag name of the HTML element.
+ * @param {string[]} [classNames=[]] - Array of class names to add to the element.
+ * @param {Object} [attributes={}] - Key-value pairs of attributes to set on the element.
+ * @param {string} [textContent=""] - Text content to set for the element.
+ * @returns {HTMLElement} - The created HTML element.
+ */
 const createElement = (tag, classNames = [], attributes = {}, textContent = "") => {
   const element = document.createElement(tag);
 
@@ -9,19 +16,37 @@ const createElement = (tag, classNames = [], attributes = {}, textContent = "") 
   return element;
 };
 
+/**
+ * Appends multiple child elements to a parent element.
+ * @param {HTMLElement} parent - The parent element.
+ * @param {...HTMLElement} children - The child elements to append.
+ */
 const appendChildren = (parent, ...children) => children.forEach(child => parent.appendChild(child));
 
+/**
+ * Creates an HTML element with text content and optional class names.
+ * @param {string} tag - The tag name of the HTML element.
+ * @param {string[]} [classNames] - Array of class names to add to the element.
+ * @param {string} text - The text content to set for the element.
+ * @returns {HTMLElement} - The created HTML element with text.
+ */
 const createTextElement = (tag, classNames, text) =>
     createElement(tag, classNames, {}, text);
 
-// Lazy Load Images
+/**
+ * Observes and lazy-loads images with the specified class.
+ */
 const observeLazyImages = () => {
   document.querySelectorAll(".movie-lazy-load:not(.loaded)").forEach((img) => {
     lazyLoadImage(img, img.getAttribute("data-src"));
   });
 };
 
-// Event Listener Utilities
+/**
+ * Adds a toggle event listener to a button for expanding or collapsing content.
+ * @param {HTMLElement} button - The button element.
+ * @param {HTMLElement} content - The content to toggle.
+ */
 const addToggleEventListener = (button, content) => {
   button.addEventListener("click", (event) => {
     event.stopPropagation();
@@ -30,7 +55,11 @@ const addToggleEventListener = (button, content) => {
   });
 };
 
-// Modal Utilities
+/**
+ * Closes a modal and its overlay with a transition effect.
+ * @param {HTMLElement} modal - The modal element.
+ * @param {HTMLElement} modalOverlay - The modal overlay element.
+ */
 const closeModal = (modal, modalOverlay) => {
   const cleanup = () => {
     modal?.remove();
@@ -44,6 +73,10 @@ const closeModal = (modal, modalOverlay) => {
   setTimeout(cleanup, 300);
 };
 
+/**
+ * Creates and appends an overlay for modals.
+ * @returns {HTMLElement} - The created overlay element.
+ */
 const createOverlay = () => {
   const overlay = document.createElement("div");
 
@@ -53,7 +86,11 @@ const createOverlay = () => {
   return overlay;
 };
 
-// Movie Card
+/**
+ * Creates an HTML structure representing a movie.
+ * @param {Object} movie - The movie data.
+ * @returns {HTMLElement} - The created movie element.
+ */
 const createMovieElement = (movie) => {
   const movieContainer = createElement("div", ["movie-container"]);
   const poster = createElement("img", ["movie-poster"]);
@@ -88,7 +125,12 @@ const createMovieElement = (movie) => {
   return movieContainer;
 };
 
-// Modal Creation
+/**
+ * Creates a modal header with a title and a close button.
+ * @param {string} titleText - The title text for the modal.
+ * @param {Function} closeModalCallback - The callback to execute when the modal is closed.
+ * @returns {HTMLElement} - The created modal header.
+ */
 const createModalHeader = (titleText, closeModalCallback) => {
   const header = createElement("div", ["modal-header"]);
   const title = createTextElement("div", ["modal-info-title"], titleText);
@@ -100,6 +142,11 @@ const createModalHeader = (titleText, closeModalCallback) => {
   return header;
 };
 
+/**
+ * Creates the main content of a modal.
+ * @param {Object} movieData - The data for the movie.
+ * @returns {HTMLElement} - The created modal content.
+ */
 const createModalContent = (movieData) => {
   const content = createElement("div", ["modal-content"]);
   appendChildren(content, createModalHero(movieData), createSimilarMoviesSection(movieData.similar));
@@ -107,6 +154,10 @@ const createModalContent = (movieData) => {
   return content;
 };
 
+/**
+ * Creates a modal for a movie.
+ * @param {Object} movieData - The movie data to display in the modal.
+ */
 const createModal = (movieData) => {
   const existingModal = document.querySelector(".modal");
 
@@ -128,6 +179,11 @@ const createModal = (movieData) => {
   modalOverlay.addEventListener("click", () => closeModal(modal, modalOverlay));
 };
 
+/**
+ * Creates a YouTube iframe element for embedding videos.
+ * @param {string} videoId - The YouTube video ID.
+ * @returns {HTMLIFrameElement} - The created iframe element.
+ */
 const createYouTubeIframe = (videoId) => {
   const iframe = document.createElement("iframe");
   iframe.src = `https://www.youtube.com/embed/${videoId}`;
@@ -139,7 +195,11 @@ const createYouTubeIframe = (videoId) => {
   return iframe;
 };
 
-// Hero Section
+/**
+ * Creates the hero section of a modal, including a video and reviews.
+ * @param {Object} movieData - The data for the movie.
+ * @returns {HTMLElement} - The created hero section.
+ */
 const createModalHero = (movieData) => {
   const modalHero = createElement("div", ["modal-info-hero"]);
   const video = createElement("div", ["video"]);
@@ -160,6 +220,11 @@ const createModalHero = (movieData) => {
   return modalHero;
 };
 
+/**
+ * Creates a section displaying reviews.
+ * @param {Array} reviews - Array of review objects.
+ * @returns {HTMLElement} - The created review section.
+ */
 const createReviewSection = (reviews) => {
   const reviewSection = createElement("div", ["reviews"]);
   const title = createTextElement("h2", [], "Reviews");
@@ -183,7 +248,11 @@ const createReviewSection = (reviews) => {
   return reviewSection;
 };
 
-// Similar Movies
+/**
+ * Creates a section displaying similar movies.
+ * @param {Array} similarMovies - Array of similar movie objects.
+ * @returns {HTMLElement} - The created similar movies section.
+ */
 const createSimilarMoviesSection = (similarMovies) => {
   const container = createElement("div", ["similar"]);
   const title = createTextElement("h2", ["similar-title"], "Similar Movies");
@@ -200,7 +269,9 @@ const createSimilarMoviesSection = (similarMovies) => {
   return container;
 };
 
-// Render Movies
+/**
+ * Renders a list of movies in the DOM.
+ */
 const renderMovies = () => {
   const searchBox = document.getElementById("query");
   const moviesToRender = searchBox.value ? state.searchMovies : state.movies;
@@ -230,7 +301,10 @@ const renderMovies = () => {
   }
 };
 
-// Handle Modal
+/**
+ * Handles fetching and displaying a modal for a movie by ID.
+ * @param {number} movieId - The ID of the movie.
+ */
 const handleModal = async (movieId) => {
   try {
     const movieData = await fetchMovie(movieId);
