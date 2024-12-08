@@ -77,13 +77,13 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .dark-mode-toggle {
     background-color: var(--dark-color); /* Dark button color for contrast */
-    color: #fff; /* Text color for visibility */
-    border: 2px solid #555; /* Subtle border for depth */
+    color: #fff;
+    border: 2px solid #555;
     border-radius: 10px; /* Rounded edges for a softer look */
     padding: 10px 20px; /* Adequate padding for a clickable button */
     font-size: 1rem; /* Readable text size */
     font-weight: bold; /* Bold text for emphasis */
-    cursor: pointer; /* Pointer cursor to indicate interactivity */
+    cursor: pointer;
     transition: all 0.3s ease; /* Smooth transitions for hover effects */
 }
 

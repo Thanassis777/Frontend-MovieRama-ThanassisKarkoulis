@@ -203,13 +203,31 @@ const createSimilarMoviesSection = (similarMovies) => {
 // Render Movies
 const renderMovies = () => {
   const searchBox = document.getElementById("query");
-  const movies = searchBox.value ? state.searchMovies : state.movies;
-  const movieListContainer = document.querySelector(".movie-list-container");
+  const moviesToRender = searchBox.value ? state.searchMovies : state.movies;
+  const lastMoviesList = moviesToRender[moviesToRender.length - 1]?.movieList || [];
 
-  movies[movies.length - 1]?.movieList.forEach((movie) => {
-    movieListContainer.appendChild(createMovieElement(movie));
+  // Clear the movie list container
+  movieListContainer.innerHTML = "";
+
+  if (lastMoviesList.length === 0) {
+    // Display "No results found" message if no movies are available
+    const noResultsMessage = createElement(
+        "div",
+        ["no-results"],
+        {},
+        "No results found. Please try another search."
+    );
+    movieListContainer.appendChild(noResultsMessage);
+  } else {
+    // Render movies if available
+    lastMoviesList.forEach((movie) => {
+      const movieElement = createMovieElement(movie);
+      movieListContainer.appendChild(movieElement);
+    });
+
+    // Observe lazy-loaded images
     observeLazyImages();
-  });
+  }
 };
 
 // Handle Modal
