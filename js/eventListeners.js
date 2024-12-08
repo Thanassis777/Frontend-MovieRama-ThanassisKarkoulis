@@ -1,30 +1,32 @@
 const searchBox = document.getElementById("query");
 const modal = document.querySelector(".modal");
 const modalOverlay = document.querySelector(".modal-overlay");
+const movieListContainer = document.querySelector(".movie-list-container");
 
 const moviesTitle = document.querySelector(".movies-title");
 moviesTitle.innerHTML = "Playing Now";
 
-const handleSearch = debounce(async () => {
-    const searchTerm = document.getElementById("query").value;
-
-    await fetchMovies(searchTerm);
+const debouncedSearchHandler = debounce(async () => {
+    try {
+        const searchTerm = document.getElementById("query").value;
+        await fetchMovies(searchTerm);
+    } catch (error) {
+        handleFetchError(error);
+    }
 }, 500);
+
+const resetSearch = (searchTerm) => {
+    movieListContainer.innerHTML = "";
+    resetState();
+    moviesTitle.innerHTML = searchTerm ? "Search results:" : "Playing Now";
+};
 
 searchBox.addEventListener("input", (event) => {
     event.preventDefault();
 
-    const movieListContainer = document.querySelector(".movie-list-container");
-
     const searchTerm = event.target.value;
-    movieListContainer.innerHTML = "";
-
-    resetState();
-    searchTerm
-        ? (moviesTitle.innerHTML = "Search results:")
-        : (moviesTitle.innerHTML = "Playing Now");
-
-    handleSearch()
+    resetSearch(searchTerm);
+    debouncedSearchHandler();
 });
 
 searchBox.addEventListener("keypress", (event) => {
@@ -45,7 +47,11 @@ document.addEventListener("keydown", (event) => {
 });
 
 const throttledFetchMovies = throttle(async () => {
-    await fetchMovies();
+    try {
+        await fetchMovies();
+    } catch (error) {
+        handleFetchError(error);
+    }
 }, 1000);
 
 window.addEventListener("scroll", () => {
