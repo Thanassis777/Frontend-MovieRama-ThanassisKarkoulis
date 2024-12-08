@@ -1,5 +1,12 @@
 :root {
     --main-bg-color: #fbf9f1;
+    --primary-color: #007BFF;
+    --dark-mode-bg: #121212;
+    --dark-mode-text: #e0e0e0;
+    --dark-color: #333;
+    --hover-bg-color: #454df3;
+    --focus-border-color: #007BFF;
+    --movie-bg-color: #e9e9f3;
 }
 
 * {
@@ -14,17 +21,17 @@ body {
 
 /* Add dark mode styling */
 body.dark-mode {
-    background-color: #121212;
-    color: #e0e0e0;
+    background-color: var(--dark-mode-bg);
+    color: var(--dark-mode-text);
 }
 
 body.dark-mode .modal {
-    background-color: #121212;
+    background-color: var(--dark-mode-bg);
 }
 
 body.dark-mode .movie-container {
     background-color: #1e1e1e;
-    color: #e0e0e0;
+    color: var(--dark-mode-text);
     border-color: #444;
 }
 

@@ -14,7 +14,7 @@
     width: 90%;
     max-width: 700px;
     max-height: 80vh; /* Prevent the modal from overlapping the header */
-    border: 4px solid black;
+    border: 4px solid var(--dark-color);
     border-radius: 15px;
     position: fixed;
     top: 50%;
@@ -136,7 +136,7 @@
 
 .similar-container .movie-container {
     border-radius: 12px; /* Smoothen corners */
-    background-color: #f9f9f9; /* Light background for contrast */
+    background-color: var(--movie-bg-color); /* Ensure the background contrasts with the border */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Subtle shadow */
     padding: 10px; /* Add padding inside the card */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add smooth hover effect */
@@ -171,7 +171,7 @@
 }
 
 .similar-container .read-more {
-    color: #007bff; /* Make the link stand out */
+    color: var(--primary-color); /* Make the link stand out */
     text-decoration: underline;
     font-size: 0.85rem;
 }

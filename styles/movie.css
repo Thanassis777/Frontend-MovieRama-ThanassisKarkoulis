@@ -17,10 +17,10 @@
     flex-direction: column;
     justify-content: space-between; /* Spread the title and content */
 
-    border: 2px solid #989cf4; /* Bright gold border to make it stand out */
+    border: 2px solid var(--primary-color);
     border-radius: 15px; /* Rounded corners for a softer look */
     padding: 10px;
-    background-color: #e9e9f3; /* Ensure the background contrasts with the border */
+    background-color: var(--movie-bg-color); /* Ensure the background contrasts with the border */
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
@@ -29,7 +29,7 @@
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
     background-color: #e8e4e4;
-    border-color: #454df3; /* Slightly darker gold on hover */
+    border-color: var(--hover-bg-color);
 }
 
 .vote-number::before {
@@ -61,7 +61,7 @@
 }
 
 .read-more {
-    color: #007bff; /* Blue color for the link */
+    color: var(--primary-color);
     cursor: pointer;
     font-size: 0.85rem;
     font-weight: bold;
@@ -150,7 +150,7 @@
 }
 
 .read-more {
-    color: #007bff; /* Blue color for the link */
+    color: var(--primary-color); /* Blue color for the link */
     cursor: pointer;
     font-size: 0.85rem;
     text-decoration: underline;
@@ -159,11 +159,6 @@
 
 .read-more:hover {
     color: #0056b3; /* Darker blue on hover */
-}
-
-@media (max-width: 497px) {
-    .movie-list-container {
-    }
 }
 
 

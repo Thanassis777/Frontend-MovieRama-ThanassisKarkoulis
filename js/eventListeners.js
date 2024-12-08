@@ -5,10 +5,16 @@ const modalOverlay = document.querySelector(".modal-overlay");
 const moviesTitle = document.querySelector(".movies-title");
 moviesTitle.innerHTML = "Playing Now";
 
-searchBox.addEventListener("input", (event) => {
-    const movieListContainer = document.querySelector(".movie-list-container");
+const handleSearch = debounce(async () => {
+    const searchTerm = document.getElementById("query").value;
 
+    await fetchMovies(searchTerm);
+}, 500);
+
+searchBox.addEventListener("input", (event) => {
     event.preventDefault();
+
+    const movieListContainer = document.querySelector(".movie-list-container");
 
     const searchTerm = event.target.value;
     movieListContainer.innerHTML = "";
@@ -18,7 +24,7 @@ searchBox.addEventListener("input", (event) => {
         ? (moviesTitle.innerHTML = "Search results:")
         : (moviesTitle.innerHTML = "Playing Now");
 
-    debounce(fetchMovies, 1000)();
+    handleSearch()
 });
 
 searchBox.addEventListener("keypress", (event) => {
@@ -38,12 +44,15 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
+const throttledFetchMovies = throttle(async () => {
+    await fetchMovies();
+}, 1000);
+
 window.addEventListener("scroll", () => {
     const isAtBottom = isScrolledToBottom();
-    const throttledFetching = throttle(fetchMovies, 1000);
 
     if (isAtBottom) {
-        throttledFetching();
+        throttledFetchMovies(); // Use the pre-defined throttled function
     }
 });
 

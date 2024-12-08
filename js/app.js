@@ -31,7 +31,7 @@ const fetchMovie = async (id) => {
 
         const videoTrailer = videoData.results.find(result => result.type === "Trailer");
         const reviews = reviewsData.results.slice(0, 2);
-        const similar = similarData.results.slice(0, 7);
+        const similar = similarData.results.slice(0, 8);
 
         return { movie: movieData, trailer: videoTrailer, reviews, similar };
     } catch (error) {
@@ -68,7 +68,6 @@ const fetchMovies = async () => {
     } catch (error) {
         handleFetchError(error);
     }
-
 };
 
 const main = async () => {
