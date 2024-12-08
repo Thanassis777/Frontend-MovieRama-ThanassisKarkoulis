@@ -149,7 +149,7 @@ const createModalHeader = (titleText, closeModalCallback) => {
  */
 const createModalContent = (movieData) => {
   const content = createElement("div", ["modal-content"]);
-  appendChildren(content, createModalHero(movieData), createSimilarMoviesSection(movieData.similar));
+  appendChildren(content, createMovieModal(movieData), createSimilarMoviesSection(movieData.similar));
 
   return content;
 };
@@ -196,12 +196,12 @@ const createYouTubeIframe = (videoId) => {
 };
 
 /**
- * Creates the hero section of a modal, including a video and reviews.
+ * Creates the movie section of a modal, including a video and reviews.
  * @param {Object} movieData - The data for the movie.
- * @returns {HTMLElement} - The created hero section.
+ * @returns {HTMLElement} - The created movie section.
  */
-const createModalHero = (movieData) => {
-  const modalHero = createElement("div", ["modal-info-hero"]);
+const createMovieModal = (movieData) => {
+  const modalMovie = createElement("div", ["modal-info-movie"]);
   const video = createElement("div", ["video"]);
 
   if (movieData.trailer?.key) {
@@ -215,9 +215,9 @@ const createModalHero = (movieData) => {
   }
 
   const reviews = createReviewSection(movieData.reviews);
-  appendChildren(modalHero, video, reviews);
+  appendChildren(modalMovie, video, reviews);
 
-  return modalHero;
+  return modalMovie;
 };
 
 /**
