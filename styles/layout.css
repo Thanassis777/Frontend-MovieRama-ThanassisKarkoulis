@@ -76,7 +76,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .dark-mode-toggle {
-    background-color: #333; /* Dark button color for contrast */
+    background-color: var(--dark-color); /* Dark button color for contrast */
     color: #fff; /* Text color for visibility */
     border: 2px solid #555; /* Subtle border for depth */
     border-radius: 10px; /* Rounded edges for a softer look */

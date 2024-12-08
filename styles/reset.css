@@ -40,13 +40,13 @@ body.dark-mode .movie-container:hover {
 }
 
 body.dark-mode .movies-title {
-    color: #e0e0e0;
+    color: var(--dark-mode-text);
     background-color: #1e1e1e;
 }
 
 body.dark-mode .dark-mode-toggle {
     background-color: #fff;
-    color: #333;
+    color: var(--dark-color);
     border-color: #ccc;
 }
 
@@ -54,4 +54,8 @@ body.dark-mode .dark-mode-toggle:hover {
     background-color: #f1f1f1;
     color: #000;
     border-color: #999;
+}
+
+body.dark-mode .similar-container .movie-title {
+    color: var(--dark-mode-text);
 }
