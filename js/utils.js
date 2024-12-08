@@ -61,9 +61,11 @@ const resetState = () => {
  */
 const handleFetchError = (error, retries = 5) => {
   if (retries > 0) {
-    console.warn(`Retrying... (${3 - retries} attempts left)`);
+    console.warn(`Retrying... (${5 - retries + 1} attempts left)`);
 
-    setTimeout(() => fetch(...args).catch((e) => handleFetchError(e, retries - 1)), 1000);
+    setTimeout(() => {
+      handleFetchError(error, retries - 1);
+    }, 1000); // Delay of 1 second before retrying
   } else {
     console.error("Error fetching data:", error);
     alert("Something went wrong. Please try again later.");
@@ -96,3 +98,21 @@ const lazyLoadImage = (img, src) => {
     img.onload = () => img.classList.add("loaded");
   }
 };
+
+
+// For Testing
+const Utils = {
+  getImage,
+  throttle,
+  debounce,
+  lazyLoadImage,
+  handleFetchError,
+  resetState,
+  isScrolledToBottom,
+};
+
+if (typeof window !== 'undefined') {
+  window.Utils = Utils;
+} else if (typeof global !== 'undefined') {
+  global.Utils = Utils;
+}

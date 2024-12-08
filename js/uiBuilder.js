@@ -312,3 +312,16 @@ const handleModal = async (movieId) => {
     handleFetchError(error);
   }
 };
+
+
+// For Testing
+const BuilderUtils = {
+  handleModal,
+  renderMovies,
+};
+
+if (typeof window !== 'undefined') {
+  window.BuilderUtils = BuilderUtils;
+} else if (typeof global !== 'undefined') {
+  global.BuilderUtils = BuilderUtils;
+}

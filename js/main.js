@@ -117,3 +117,19 @@ const main = async () => {
 
 // Start the application
 main();
+
+
+// For Testing
+const MainUtils = {
+    fetchMovies,
+    fetchMovie,
+    fetchGenres,
+    state,
+};
+
+if (typeof window !== 'undefined') {
+    window.MainUtils = MainUtils;
+} else if (typeof global !== 'undefined') {
+    global.MainUtils = MainUtils;
+}
+

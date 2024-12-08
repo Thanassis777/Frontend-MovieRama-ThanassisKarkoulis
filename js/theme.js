@@ -29,8 +29,21 @@ const createDarkModeButton = () => {
     button.textContent = "Dark Mode"; // Default text
     button.classList.add("dark-mode-toggle");
     button.addEventListener("click", toggleDarkMode);
-    header.appendChild(button);
+    header?.appendChild(button);
 };
 
 // Initialize the dark mode toggle button
 createDarkModeButton();
+
+
+// For Testing
+const ThemeUtils = {
+    createDarkModeButton,
+    toggleDarkMode,
+};
+
+if (typeof window !== 'undefined') {
+    window.ThemeUtils = ThemeUtils;
+} else if (typeof global !== 'undefined') {
+    global.ThemeUtils = ThemeUtils;
+}
