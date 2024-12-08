@@ -57,46 +57,4 @@ describe.skip('UI Builder Functions', () => {
             expect(handleFetchError).toHaveBeenCalledWith(expect.any(Error));
         });
     });
-
-    // describe('renderMovies', () => {
-    //     it('should display "No results found" message when no movies exist', () => {
-    //         const searchBox = document.getElementById('query');
-    //         searchBox.value = ''; // Simulate no search query
-    //         global.state.movies = [];
-    //         global.state.searchMovies = [];
-    //
-    //         renderMovies();
-    //
-    //         const container = document.querySelector('.movie-list-container');
-    //         expect(container.innerHTML).toContain('No results found');
-    //     });
-    //
-    //     it('should render movies from the state', () => {
-    //         const mockMovies = [
-    //             { id: 1, title: 'Movie 1', genre_ids: [], vote_average: 8.0, backdrop_path: '', release_date: '2022-01-01', overview: 'Overview 1' },
-    //             { id: 2, title: 'Movie 2', genre_ids: [], vote_average: 7.5, backdrop_path: '', release_date: '2022-01-02', overview: 'Overview 2' },
-    //         ];
-    //         global.state.movies = [{ page: 1, movieList: mockMovies }];
-    //         const container = document.querySelector('.movie-list-container');
-    //
-    //         renderMovies();
-    //
-    //         expect(container.innerHTML).toContain('Movie 1');
-    //         expect(container.innerHTML).toContain('Movie 2');
-    //     });
-    //
-    //     it('should observe lazy-loaded images', () => {
-    //         const observeLazyImages = jest.fn();
-    //         global.observeLazyImages = observeLazyImages;
-    //
-    //         const mockMovies = [
-    //             { id: 1, title: 'Movie 1', genre_ids: [], vote_average: 8.0, backdrop_path: '', release_date: '2022-01-01', overview: 'Overview 1' },
-    //         ];
-    //         global.state.movies = [{ page: 1, movieList: mockMovies }];
-    //
-    //         renderMovies();
-    //
-    //         expect(observeLazyImages).toHaveBeenCalled();
-    //     });
-    // });
 });
