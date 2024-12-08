@@ -277,10 +277,9 @@ const renderMovies = () => {
   const moviesToRender = searchBox.value ? state.searchMovies : state.movies;
   const lastMoviesList = moviesToRender[moviesToRender.length - 1]?.movieList || [];
 
-  // Clear the movie list container
-  movieListContainer.innerHTML = "";
-
   if (lastMoviesList.length === 0) {
+    movieListContainer.innerHTML = "";
+
     // Display "No results found" message if no movies are available
     const noResultsMessage = createElement(
         "div",
