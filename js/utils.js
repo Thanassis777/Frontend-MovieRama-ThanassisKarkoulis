@@ -30,16 +30,16 @@ const resetState = () => {
   state.searchMovies = [];
 };
 
-const handleFetchError = (error, retries = 3) => {
+const handleFetchError = (error, retries = 5) => {
   if (retries > 0) {
     console.warn(`Retrying... (${3 - retries} attempts left)`);
+
     setTimeout(() => fetch(...args).catch((e) => handleFetchError(e, retries - 1)), 1000);
   } else {
     console.error("Error fetching data:", error);
     alert("Something went wrong. Please try again later.");
   }
 };
-
 
 // Lazy-load images
 const lazyLoadImage = (img, src) => {
