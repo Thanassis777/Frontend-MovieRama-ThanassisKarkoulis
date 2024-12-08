@@ -130,8 +130,8 @@
     padding-bottom: 20px;
 }
 
-.no-similar-movies {
-    grid-column: 1 / -1; /* Span the entire width of the grid */
+.no-reviews-available {
+    margin: 20px;
 }
 
 .similar-container .movie-container {
